@@ -1,12 +1,14 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
+
+
 const StateContext = createContext();
 // http://www.omdbapi.com/?apikey=[yourkey]&
 // OMDb parameters
 // s: Movie title to search for
 // https://www.omdbapi.com/?apikey=[mykey]&s=matrix
 
-const baseUrl = `https://www.omdbapi.com/?apikey=abfefb4f&`
+export const baseUrl = `https://www.omdbapi.com/?apikey=abfefb4f&`
 
 export const StateContextProvider = ( {children} ) => { 
 
@@ -14,6 +16,7 @@ export const StateContextProvider = ( {children} ) => {
     const [isLoading, setIsLoading] = useState(true);
 
     const [query, setQuery] = useState("matrix");
+    
     const [error, setError] = useState({msg:"", show: false})
 
       const fetchData = async (url) => {
