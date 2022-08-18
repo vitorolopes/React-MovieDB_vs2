@@ -6,20 +6,29 @@ const StateContext = createContext();
 // s: Movie title to search for
 // https://www.omdbapi.com/?apikey=[mykey]&s=matrix
 
+const baseUrl = `https://www.omdbapi.com/?apikey=abfefb4f&`
+
 export const StateContextProvider = ( {children} ) => { 
 
     const [moviesData, setMoviesData] = useState([]);
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(true);
 
-    const dummyValue = "This is a dummy value";
+    const [query, setQuery] = useState("matrix");
+    const [error, setError] = useState({msg:"", show: false})
 
-    const fetchData = async () => {
+      const fetchData = async (url) => {
         setIsLoading(true)
         try {
-            const res = await fetch("https://www.omdbapi.com/?apikey=abfefb4f&s=matrix")
+            const res = await fetch(url)
             const data = await res.json();
-            console.log(data.Search)
-            setMoviesData(data.Search)
+            console.log(data)
+
+            if(data.Response === "True"){
+                setMoviesData(data.Search)    
+                setError({show: false, msg: ""})      
+            } else {
+                setError({show: true, msg: data.Error})
+            }
             setIsLoading(false)
         } catch (error) {
             console.log(error);
@@ -27,16 +36,16 @@ export const StateContextProvider = ( {children} ) => {
     }
 
     useEffect(() => {
-      fetchData()
-    }, [])
+      fetchData(`${baseUrl}s=${query}`)
+    }, [query])
     
-
     return(
         <StateContext.Provider
             value={{
-                dummyValue,
                 isLoading,
-                moviesData
+                moviesData,
+                setQuery,
+                error
             }}
         >
             { children }

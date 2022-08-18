@@ -33,9 +33,7 @@ const MoviesList = () => {
                     }
                 </div>
             )
-        }
-            
-        )}
+        })}
     </section>
   )
 }
