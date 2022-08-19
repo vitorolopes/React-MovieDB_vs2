@@ -1,0 +1,3 @@
+Centralize all state variables (moviesData, singleMovieData, etc) in StateContextProvider
+Make both fetch requests from an useFetch custom hook.
+In Movie I just want to receive the singleMovieData and display it (as it happens in MovieList)

@@ -1,37 +1,20 @@
 import React, {useState, useEffect} from 'react';
 import { baseUrl } from '../context/StateContextProvider';
 import {useParams, Link} from 'react-router-dom';
+import { useStateContext } from '../context/StateContextProvider';
 
 const Movie = () => {
-
-  const [singleMovieData, setSingleMovieData] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState({msg:"", show: false})
+//! HERE
+ // 1a) Removed the state variables previously defined in Movie.js
+ // to StateContextProvider. Get them with useStateContext()
+  const { singleMovieData, isLoading, error, fetchBothData} = useStateContext();
 
   const {id} = useParams();
- 
-
-  const fetchData = async (url) => {
-    setIsLoading(true)
-    try {
-        const res = await fetch(url)
-        const data = await res.json();
-        console.log(data)
-
-        if(data.Response === "True"){
-            setSingleMovieData(data)    
-            setError({show: false, msg: ""})      
-        } else {
-            setError({show: true, msg: data.Error})
-        }
-        setIsLoading(false)
-    } catch (error) {
-        console.log(error);
-    }
-  }
-
+ //! HERE
+ // 1b) Moved fetchDataSingleMovie to StateContextProvider
+  
   useEffect(() => {
-      fetchData(`${baseUrl}i=${id}`)
+      fetchBothData(`${baseUrl}i=${id}`)
   }, [id])
     
 
